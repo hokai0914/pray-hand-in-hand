@@ -1,0 +1,17 @@
+{
+  "grade": 1,
+  "children": [
+    {
+      "id": "1-01",
+      "name": "홍길동",
+      "prayer": "우리 가족이 항상 건강하고 행복하게 해주세요",
+      "image": "assets/1/1-01/photo1.svg"
+    },
+    {
+      "id": "1-02",
+      "name": "김민준",
+      "prayer": "친구들과 사이좋게 지내게 해주세요",
+      "image": "assets/1/1-02/photo1.svg"
+    }
+  ]
+}

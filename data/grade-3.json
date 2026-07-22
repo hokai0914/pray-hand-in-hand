@@ -1,0 +1,17 @@
+{
+  "grade": 3,
+  "children": [
+    {
+      "id": "3-01",
+      "name": "최유진",
+      "prayer": "이번 시험을 잘 볼 수 있게 해주세요",
+      "image": "assets/3/3-01/photo1.svg"
+    },
+    {
+      "id": "3-02",
+      "name": "정하은",
+      "prayer": "우리 강아지가 오래오래 건강하게 해주세요",
+      "image": "assets/3/3-02/photo1.svg"
+    }
+  ]
+}

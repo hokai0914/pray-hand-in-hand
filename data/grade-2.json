@@ -1,0 +1,17 @@
+{
+  "grade": 2,
+  "children": [
+    {
+      "id": "2-01",
+      "name": "이서연",
+      "prayer": "할머니가 빨리 나으시게 해주세요",
+      "image": "assets/2/2-01/photo1.svg"
+    },
+    {
+      "id": "2-02",
+      "name": "박지훈",
+      "prayer": "동생이랑 안 싸우고 사이좋게 지내게 해주세요",
+      "image": "assets/2/2-02/photo1.svg"
+    }
+  ]
+}

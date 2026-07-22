@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>손잡고 기도해요</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Do+Hyeon&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<section id="screen-home" class="screen active">
+  <div class="home-inner">
+    <h1 class="home-title">손잡고 기도해요</h1>
+    <p class="home-subtitle">학년을 선택해서 함께 기도해요</p>
+
+    <div class="grade-grid">
+      <button class="grade-btn" data-grade="1">1학년</button>
+      <button class="grade-btn" data-grade="2">2학년</button>
+      <button class="grade-btn" data-grade="3">3학년</button>
+      <button class="grade-btn" data-grade="4">4학년</button>
+      <button class="grade-btn" data-grade="5">5학년</button>
+      <button class="grade-btn" data-grade="6">6학년</button>
+    </div>
+
+    <button class="random-btn" id="random-btn">
+      <span class="random-icon">🎲</span> 랜덤으로 기도하기
+    </button>
+  </div>
+</section>
+
+<section id="screen-viewer" class="screen">
+  <div class="viewer" id="viewer">
+    <div class="viewer-backdrop" id="viewer-backdrop"></div>
+
+    <div class="name-label" id="name-label"></div>
+
+    <div class="image-wrap">
+      <img class="child-photo" id="child-photo" alt="">
+    </div>
+
+    <div class="prayer-text" id="prayer-text"></div>
+
+    <button class="home-btn" id="home-btn" aria-label="홈으로">
+      <span class="home-icon">🏠</span>
+    </button>
+
+    <span class="chevron chevron-left" id="chevron-left" aria-hidden="true">‹</span>
+    <span class="chevron chevron-right" id="chevron-right" aria-hidden="true">›</span>
+
+    <div class="progress-dots" id="progress-dots"></div>
+  </div>
+</section>
+
+<script src="js/utils.js"></script>
+<script src="js/dataLoader.js"></script>
+<script src="js/gestures.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/router.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
