@@ -208,18 +208,18 @@ button {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   z-index: 3;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s ease;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
 .hand-guide svg {
-  width: 58%;
-  max-width: 340px;
-  height: auto;
+  height: 66dvh;
+  width: auto;
   filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
 }
 
@@ -245,10 +245,10 @@ button {
 }
 
 .prayer-text {
-  bottom: calc(max(20px, env(safe-area-inset-bottom)) + 36px);
+  top: calc(max(28px, env(safe-area-inset-top)) + 64px);
   font-size: 1.2rem;
   line-height: 1.5;
-  transform: translateY(10px);
+  transform: translateY(-10px);
 }
 
 .viewer.overlay-visible .name-label,
