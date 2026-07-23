@@ -204,6 +204,25 @@ button {
   100% { transform: translateX(0); }
 }
 
+.hand-guide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.hand-guide svg {
+  width: 58%;
+  max-width: 340px;
+  height: auto;
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
+}
+
 .name-label,
 .prayer-text {
   position: absolute;
@@ -236,6 +255,10 @@ button {
 .viewer.overlay-visible .prayer-text {
   opacity: 1;
   transform: translateY(0);
+}
+
+.viewer.overlay-visible .hand-guide {
+  opacity: 1;
 }
 
 .home-btn {
