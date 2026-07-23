@@ -28,9 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   Gestures.init(Utils.qs('#viewer'), {
     onTap: () => Viewer.toggleOverlay(),
+    onDoubleTap: () => Viewer.onDoubleTap(),
+    isZoomed: () => Viewer.isZoomed(),
     onDragStart: () => Viewer.onDragStart(),
-    onDragMove: (deltaX) => Viewer.onDragMove(deltaX),
-    onDragEnd: (deltaX, velocity) => Viewer.onDragEnd(deltaX, velocity),
+    onDragMove: (deltaX, deltaY) => Viewer.onDragMove(deltaX, deltaY),
+    onDragEnd: (deltaX, deltaY, velocity) => Viewer.onDragEnd(deltaX, deltaY, velocity),
+    onPinchStart: (mid) => Viewer.onPinchStart(mid),
+    onPinchMove: (ratio, mid) => Viewer.onPinchMove(ratio, mid),
+    onPinchEnd: () => Viewer.onPinchEnd(),
   });
 
   Router.init();

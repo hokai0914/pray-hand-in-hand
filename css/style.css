@@ -191,6 +191,11 @@ button {
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.35));
+  transform-origin: center center;
+}
+
+.child-photo.zoom-transition {
+  transition: transform 0.25s ease;
 }
 
 #photo-current.swipe-hint {

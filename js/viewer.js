@@ -3,12 +3,23 @@ const Viewer = (() => {
   const SWIPE_DISTANCE_RATIO = 0.2;
   const SWIPE_VELOCITY = 0.55; // px/ms
 
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 3.5;
+  const DOUBLE_TAP_ZOOM = 2.4;
+
   let sequence = [];
   let currentIndex = 0;
   let overlayVisible = false;
   let hintPlayed = false;
   let animating = false;
   let currentOffsetPx = 0;
+
+  let zoomScale = 1;
+  let panX = 0;
+  let panY = 0;
+  let pinchStartScale = 1;
+  let panStartX = 0;
+  let panStartY = 0;
 
   const el = {
     viewer: null,
@@ -47,8 +58,45 @@ const Viewer = (() => {
     el.viewer.classList.remove('overlay-visible');
     el.track.classList.remove('settling');
     setTrackOffset(0);
+    setZoomTransition(false);
+    resetZoom();
     renderDots();
     render({ playHint: true });
+  }
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function isZoomed() {
+    return zoomScale > MIN_ZOOM + 0.01;
+  }
+
+  function setZoomTransition(enabled) {
+    el.photoCurrent.classList.toggle('zoom-transition', enabled);
+  }
+
+  function applyZoomTransform() {
+    el.photoCurrent.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomScale})`;
+  }
+
+  function clampPan() {
+    if (zoomScale <= MIN_ZOOM) {
+      panX = 0;
+      panY = 0;
+      return;
+    }
+    const maxOffsetX = (el.photoCurrent.clientWidth * (zoomScale - 1)) / 2;
+    const maxOffsetY = (el.photoCurrent.clientHeight * (zoomScale - 1)) / 2;
+    panX = clamp(panX, -maxOffsetX, maxOffsetX);
+    panY = clamp(panY, -maxOffsetY, maxOffsetY);
+  }
+
+  function resetZoom() {
+    zoomScale = MIN_ZOOM;
+    panX = 0;
+    panY = 0;
+    applyZoomTransform();
   }
 
   function setTrackOffset(px) {
@@ -76,7 +124,7 @@ const Viewer = (() => {
 
     const url = Utils.buildImageUrl(child.image);
     el.backdrop.style.backgroundImage = `url("${url}")`;
-    el.nameLabel.textContent = child.name;
+    el.nameLabel.textContent = `${child.grade}학년 ${child.name}`;
     el.prayerText.textContent = child.prayer;
 
     el.chevronLeft.classList.toggle('hidden', currentIndex === 0);
@@ -150,12 +198,18 @@ const Viewer = (() => {
 
   function goTo(direction) {
     if (animating) return;
+    if (isZoomed()) {
+      setZoomTransition(true);
+      resetZoom();
+      return;
+    }
     if (direction > 0 && currentIndex >= sequence.length - 1) return;
     if (direction < 0 && currentIndex <= 0) return;
 
     const viewerWidth = el.viewer.clientWidth || 1;
     settleTo(-direction * viewerWidth, () => {
       currentIndex += direction;
+      resetZoom();
       setTrackOffset(0);
       render({});
     });
@@ -163,11 +217,24 @@ const Viewer = (() => {
 
   function onDragStart() {
     if (animating) return;
+    if (isZoomed()) {
+      panStartX = panX;
+      panStartY = panY;
+      setZoomTransition(false);
+      return;
+    }
     el.track.classList.remove('settling');
   }
 
-  function onDragMove(deltaX) {
+  function onDragMove(deltaX, deltaY) {
     if (animating) return;
+    if (isZoomed()) {
+      panX = panStartX + deltaX;
+      panY = panStartY + deltaY;
+      clampPan();
+      applyZoomTransform();
+      return;
+    }
     let dx = deltaX;
     const atFirst = currentIndex === 0;
     const atLast = currentIndex === sequence.length - 1;
@@ -177,8 +244,9 @@ const Viewer = (() => {
     setTrackOffset(dx);
   }
 
-  function onDragEnd(deltaX, velocity) {
+  function onDragEnd(deltaX, deltaY, velocity) {
     if (animating) return;
+    if (isZoomed()) return;
 
     const viewerWidth = el.viewer.clientWidth || 1;
     const atFirst = currentIndex === 0;
@@ -205,6 +273,36 @@ const Viewer = (() => {
     settleTo(0, () => {});
   }
 
+  function onPinchStart() {
+    pinchStartScale = zoomScale;
+    setZoomTransition(false);
+  }
+
+  function onPinchMove(ratio) {
+    zoomScale = clamp(pinchStartScale * ratio, MIN_ZOOM, MAX_ZOOM);
+    clampPan();
+    applyZoomTransform();
+  }
+
+  function onPinchEnd() {
+    if (zoomScale < MIN_ZOOM + 0.05) {
+      setZoomTransition(true);
+      resetZoom();
+    }
+  }
+
+  function onDoubleTap() {
+    setZoomTransition(true);
+    if (isZoomed()) {
+      resetZoom();
+    } else {
+      zoomScale = DOUBLE_TAP_ZOOM;
+      panX = 0;
+      panY = 0;
+      applyZoomTransform();
+    }
+  }
+
   function next() {
     goTo(1);
   }
@@ -224,8 +322,13 @@ const Viewer = (() => {
     next,
     prev,
     toggleOverlay,
+    isZoomed,
     onDragStart,
     onDragMove,
     onDragEnd,
+    onPinchStart,
+    onPinchMove,
+    onPinchEnd,
+    onDoubleTap,
   };
 })();

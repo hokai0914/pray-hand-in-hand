@@ -24,7 +24,7 @@ const Router = (() => {
       const grade = Number(gradeMatch[1]);
       showViewer();
       const data = await DataLoader.loadGrade(grade);
-      Viewer.start(data.children);
+      Viewer.start(data.children.map((child) => ({ ...child, grade })));
     } else {
       showHome();
     }
