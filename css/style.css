@@ -217,9 +217,11 @@ button {
   padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
-.hand-guide svg {
+.hand-guide img {
   height: 66dvh;
   width: auto;
+  opacity: 0.55;
+  transform: scaleX(-1);
   filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
 }
 
