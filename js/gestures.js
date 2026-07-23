@@ -1,10 +1,13 @@
 const Gestures = (() => {
   const TAP_MAX_DISTANCE = 10;
-  const SWIPE_THRESHOLD = 60;
+  const DRAG_START_THRESHOLD = 6;
 
   let startX = 0;
   let startY = 0;
+  let lastX = 0;
+  let lastTime = 0;
   let tracking = false;
+  let dragging = false;
 
   function init(target, handlers) {
     target.addEventListener('touchstart', (e) => {
@@ -13,9 +16,33 @@ const Gestures = (() => {
         return;
       }
       const t = e.touches[0];
-      startX = t.clientX;
+      startX = lastX = t.clientX;
       startY = t.clientY;
+      lastTime = e.timeStamp;
       tracking = true;
+      dragging = false;
+    }, { passive: true });
+
+    target.addEventListener('touchmove', (e) => {
+      if (!tracking) return;
+      const t = e.touches[0];
+      const deltaX = t.clientX - startX;
+      const deltaY = t.clientY - startY;
+
+      if (!dragging) {
+        if (Math.abs(deltaX) < DRAG_START_THRESHOLD && Math.abs(deltaY) < DRAG_START_THRESHOLD) return;
+        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+          // vertical gesture, let the page behave normally
+          tracking = false;
+          return;
+        }
+        dragging = true;
+        handlers.onDragStart();
+      }
+
+      lastX = t.clientX;
+      lastTime = e.timeStamp;
+      handlers.onDragMove(deltaX);
     }, { passive: true });
 
     target.addEventListener('touchend', (e) => {
@@ -25,22 +52,27 @@ const Gestures = (() => {
       const t = e.changedTouches[0];
       const deltaX = t.clientX - startX;
       const deltaY = t.clientY - startY;
-      const distance = Math.hypot(deltaX, deltaY);
 
-      if (distance < TAP_MAX_DISTANCE) {
-        handlers.onTap();
+      if (!dragging) {
+        const distance = Math.hypot(deltaX, deltaY);
+        if (distance < TAP_MAX_DISTANCE) {
+          handlers.onTap();
+        }
         return;
       }
 
-      const horizontal = Math.abs(deltaX) > Math.abs(deltaY);
-      if (horizontal && Math.abs(deltaX) > SWIPE_THRESHOLD) {
-        if (deltaX < 0) {
-          handlers.onSwipeLeft();
-        } else {
-          handlers.onSwipeRight();
-        }
+      dragging = false;
+      const dt = Math.max(e.timeStamp - lastTime, 1);
+      const velocity = (t.clientX - lastX) / dt; // px/ms over the final movement
+      handlers.onDragEnd(deltaX, velocity);
+    }, { passive: true });
+
+    target.addEventListener('touchcancel', () => {
+      tracking = false;
+      if (dragging) {
+        dragging = false;
+        handlers.onDragEnd(0, 0);
       }
-      // otherwise: ambiguous partial drag, do nothing
     }, { passive: true });
   }
 

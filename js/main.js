@@ -28,8 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   Gestures.init(Utils.qs('#viewer'), {
     onTap: () => Viewer.toggleOverlay(),
-    onSwipeLeft: () => Viewer.next(),
-    onSwipeRight: () => Viewer.prev(),
+    onDragStart: () => Viewer.onDragStart(),
+    onDragMove: (deltaX) => Viewer.onDragMove(deltaX),
+    onDragEnd: (deltaX, velocity) => Viewer.onDragEnd(deltaX, velocity),
   });
 
   Router.init();

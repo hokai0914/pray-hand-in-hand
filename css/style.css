@@ -160,6 +160,24 @@ button {
 .image-wrap {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transform: translateX(calc(-100% / 3));
+  will-change: transform;
+}
+
+.carousel-track.settling {
+  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.carousel-slide {
+  flex: 0 0 calc(100% / 3);
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -175,7 +193,7 @@ button {
   filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.35));
 }
 
-.child-photo.swipe-hint {
+#photo-current.swipe-hint {
   animation: swipe-hint 0.7s ease;
 }
 
