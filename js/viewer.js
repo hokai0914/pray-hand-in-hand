@@ -156,7 +156,6 @@ const Viewer = (() => {
     const viewerWidth = el.viewer.clientWidth || 1;
     settleTo(-direction * viewerWidth, () => {
       currentIndex += direction;
-      closeOverlay();
       setTrackOffset(0);
       render({});
     });
@@ -217,12 +216,6 @@ const Viewer = (() => {
   function toggleOverlay() {
     overlayVisible = !overlayVisible;
     el.viewer.classList.toggle('overlay-visible', overlayVisible);
-  }
-
-  function closeOverlay() {
-    if (!overlayVisible) return;
-    overlayVisible = false;
-    el.viewer.classList.remove('overlay-visible');
   }
 
   return {
