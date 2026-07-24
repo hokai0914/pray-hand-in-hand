@@ -30,7 +30,7 @@ const Gestures = (() => {
 
   function init(target, handlers) {
     target.addEventListener('touchstart', (e) => {
-      if (e.target.closest('.home-btn') || e.target.closest('.chevron')) {
+      if (e.target.closest('.home-btn') || e.target.closest('.chevron') || e.target.closest('.settings-btn') || e.target.closest('.settings-overlay')) {
         tracking = false;
         pinching = false;
         return;

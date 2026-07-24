@@ -64,14 +64,37 @@
       <span class="home-icon">🏠</span>
     </button>
 
+    <button class="settings-btn" id="settings-btn" aria-label="설정">
+      <span class="settings-icon">⚙️</span>
+    </button>
+
     <span class="chevron chevron-left" id="chevron-left" aria-hidden="true">‹</span>
     <span class="chevron chevron-right" id="chevron-right" aria-hidden="true">›</span>
 
     <div class="progress-dots" id="progress-dots"></div>
+
+    <div class="settings-overlay" id="settings-overlay" aria-hidden="true">
+      <div class="settings-panel">
+        <h2 class="settings-title">화면 터치 시 보여줄 항목</h2>
+
+        <label class="settings-option">
+          <span>이름, 기도제목</span>
+          <input type="checkbox" id="setting-info" checked>
+        </label>
+
+        <label class="settings-option">
+          <span>손바닥 모양</span>
+          <input type="checkbox" id="setting-hand" checked>
+        </label>
+
+        <button class="settings-close" id="settings-close">닫기</button>
+      </div>
+    </div>
   </div>
 </section>
 
 <script src="js/utils.js"></script>
+<script src="js/settings.js"></script>
 <script src="js/dataLoader.js"></script>
 <script src="js/gestures.js"></script>
 <script src="js/viewer.js"></script>

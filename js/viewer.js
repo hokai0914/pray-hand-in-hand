@@ -10,6 +10,7 @@ const Viewer = (() => {
   let sequence = [];
   let currentIndex = 0;
   let overlayVisible = false;
+  let overlaySettings = { showInfo: true, showHand: true };
   let hintPlayed = false;
   let animating = false;
   let currentOffsetPx = 0;
@@ -58,7 +59,7 @@ const Viewer = (() => {
     overlayVisible = false;
     hintPlayed = false;
     animating = false;
-    el.viewer.classList.remove('overlay-visible');
+    updateOverlayClasses();
     el.track.classList.remove('settling');
     hideTapHint();
     setTrackOffset(0);
@@ -331,7 +332,17 @@ const Viewer = (() => {
   function toggleOverlay() {
     hideTapHint();
     overlayVisible = !overlayVisible;
-    el.viewer.classList.toggle('overlay-visible', overlayVisible);
+    updateOverlayClasses();
+  }
+
+  function updateOverlayClasses() {
+    el.viewer.classList.toggle('show-info', overlayVisible && overlaySettings.showInfo);
+    el.viewer.classList.toggle('show-hand', overlayVisible && overlaySettings.showHand);
+  }
+
+  function applySettings(settings) {
+    overlaySettings = settings;
+    updateOverlayClasses();
   }
 
   return {
@@ -340,6 +351,7 @@ const Viewer = (() => {
     next,
     prev,
     toggleOverlay,
+    applySettings,
     isZoomed,
     onDragStart,
     onDragMove,

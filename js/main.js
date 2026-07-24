@@ -1,6 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
   Viewer.init();
 
+  const settingsOverlay = Utils.qs('#settings-overlay');
+  const settingInfo = Utils.qs('#setting-info');
+  const settingHand = Utils.qs('#setting-hand');
+
+  const currentSettings = Settings.load();
+  settingInfo.checked = currentSettings.showInfo;
+  settingHand.checked = currentSettings.showHand;
+  Viewer.applySettings(currentSettings);
+
+  Utils.qs('#settings-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    settingsOverlay.classList.add('visible');
+  });
+
+  Utils.qs('#settings-close').addEventListener('click', (e) => {
+    e.stopPropagation();
+    settingsOverlay.classList.remove('visible');
+  });
+
+  settingsOverlay.addEventListener('click', (e) => {
+    if (e.target === settingsOverlay) settingsOverlay.classList.remove('visible');
+  });
+
+  settingInfo.addEventListener('change', () => {
+    Viewer.applySettings(Settings.set({ showInfo: settingInfo.checked }));
+  });
+
+  settingHand.addEventListener('change', () => {
+    Viewer.applySettings(Settings.set({ showHand: settingHand.checked }));
+  });
+
   document.querySelectorAll('.grade-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       Router.navigate(`#/grade/${btn.dataset.grade}`);

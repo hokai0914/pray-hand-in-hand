@@ -290,19 +290,19 @@ button {
   line-height: 1.5;
 }
 
-.viewer.overlay-visible .info-panel {
+.viewer.show-info .info-panel {
   opacity: 1;
   transform: translateY(0);
 }
 
-.viewer.overlay-visible .hand-guide {
+.viewer.show-hand .hand-guide {
   opacity: 1;
 }
 
-.home-btn {
+.home-btn,
+.settings-btn {
   position: absolute;
   top: max(20px, env(safe-area-inset-top));
-  left: 20px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -315,8 +315,91 @@ button {
   z-index: 10;
 }
 
-.home-btn:active {
+.home-btn {
+  left: 20px;
+}
+
+.settings-btn {
+  right: 20px;
+}
+
+.home-btn:active,
+.settings-btn:active {
   transform: scale(0.92);
+}
+
+.settings-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 20, 12, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  padding: 24px;
+}
+
+.settings-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.settings-panel {
+  width: 100%;
+  max-width: 320px;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px 22px;
+}
+
+.settings-title {
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+  font-weight: normal;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.settings-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 4px;
+  font-size: 1.05rem;
+  color: var(--color-text);
+  border-bottom: 1px solid rgba(58, 50, 38, 0.1);
+}
+
+.settings-option:last-of-type {
+  border-bottom: none;
+}
+
+.settings-option input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.settings-close {
+  width: 100%;
+  height: 48px;
+  margin-top: 20px;
+  border-radius: var(--radius);
+  background: var(--color-text);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  transition: transform 0.15s ease;
+}
+
+.settings-close:active {
+  transform: scale(0.97);
 }
 
 .chevron {
