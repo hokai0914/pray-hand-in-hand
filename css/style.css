@@ -230,6 +230,32 @@ button {
   filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
 }
 
+.tap-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  z-index: 6;
+  pointer-events: none;
+  max-width: 78%;
+  text-align: center;
+  color: #fff;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  background: rgba(58, 50, 38, 0.72);
+  border-radius: 16px;
+  padding: 16px 22px;
+  box-shadow: var(--shadow);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tap-hint.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
 .info-panel {
   position: absolute;
   top: max(24px, env(safe-area-inset-top));

@@ -13,6 +13,7 @@ const Viewer = (() => {
   let hintPlayed = false;
   let animating = false;
   let currentOffsetPx = 0;
+  let tapHintTimer = null;
 
   let zoomScale = 1;
   let panX = 0;
@@ -33,6 +34,7 @@ const Viewer = (() => {
     chevronLeft: null,
     chevronRight: null,
     dots: null,
+    tapHint: null,
   };
 
   function init() {
@@ -47,6 +49,7 @@ const Viewer = (() => {
     el.chevronLeft = Utils.qs('#chevron-left');
     el.chevronRight = Utils.qs('#chevron-right');
     el.dots = Utils.qs('#progress-dots');
+    el.tapHint = Utils.qs('#tap-hint');
   }
 
   function start(children) {
@@ -57,6 +60,7 @@ const Viewer = (() => {
     animating = false;
     el.viewer.classList.remove('overlay-visible');
     el.track.classList.remove('settling');
+    hideTapHint();
     setTrackOffset(0);
     setZoomTransition(false);
     resetZoom();
@@ -144,7 +148,20 @@ const Viewer = (() => {
           el.chevronRight.classList.remove('pulse');
         }, 700);
       });
+      showTapHint();
     }
+  }
+
+  function showTapHint() {
+    el.tapHint.classList.add('visible');
+    clearTimeout(tapHintTimer);
+    tapHintTimer = setTimeout(hideTapHint, 2600);
+  }
+
+  function hideTapHint() {
+    clearTimeout(tapHintTimer);
+    tapHintTimer = null;
+    el.tapHint.classList.remove('visible');
   }
 
   function renderDots() {
@@ -312,6 +329,7 @@ const Viewer = (() => {
   }
 
   function toggleOverlay() {
+    hideTapHint();
     overlayVisible = !overlayVisible;
     el.viewer.classList.toggle('overlay-visible', overlayVisible);
   }
