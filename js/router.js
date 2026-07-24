@@ -24,7 +24,8 @@ const Router = (() => {
       const grade = Number(gradeMatch[1]);
       showViewer();
       const data = await DataLoader.loadGrade(grade);
-      Viewer.start(data.children.map((child) => ({ ...child, grade })));
+      const sorted = [...data.children].sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+      Viewer.start(sorted.map((child) => ({ ...child, grade })));
     } else {
       showHome();
     }
