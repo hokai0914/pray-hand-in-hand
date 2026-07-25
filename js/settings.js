@@ -1,6 +1,6 @@
 const Settings = (() => {
   const STORAGE_KEY = 'phih-settings';
-  const DEFAULTS = { showInfo: true, showHand: true };
+  const DEFAULTS = { showInfo: true, showHand: false };
 
   let state = { ...DEFAULTS };
 

@@ -10,7 +10,7 @@ const Viewer = (() => {
   let sequence = [];
   let currentIndex = 0;
   let overlayVisible = false;
-  let overlaySettings = { showInfo: true, showHand: true };
+  let overlaySettings = { showInfo: true, showHand: false };
   let hintPlayed = false;
   let animating = false;
   let currentOffsetPx = 0;
